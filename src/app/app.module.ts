@@ -7,6 +7,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { HeaderComponent } from './menu/header/header.component';
 import { SidebarComponent } from './menu/sidebar/sidebar.component';
+import { WelcomeComponent } from './menu/welcome/welcome.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { SidebarComponent } from './menu/sidebar/sidebar.component';
     LoginComponent,
     SignupComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
-    MaterialModule
+    MaterialModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
