@@ -1,0 +1,9 @@
+a {
+  text-decoration: none;
+  /* margin-right: 1rem; */
+  color: white;
+}
+
+a:hover, a:active {
+  color: orange;
+}
