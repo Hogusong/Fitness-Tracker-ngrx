@@ -1,3 +1,25 @@
-<p>
-  login works!
-</p>
+<section>
+  <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px"
+        #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <mat-form-field hintLabel="You can login with username or email">
+      <input type="text" matInput placeholder="Username or Email"
+            ngModel name="keyword" required 
+            #keyword="ngModel">
+      <mat-hint align="end">{{ keyword.value?.length }}</mat-hint>
+      <mat-error *ngIf="keyword.hasError('required')">Field must not be empty!!!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Should be at least 6 characters long.">
+    <input type="password" matInput placeholder="Your password"
+            ngModel name="password" required minlength="6"
+            #password="ngModel">
+      <mat-hint align="end">{{password.value?.length}}</mat-hint>
+      <mat-error *ngIf="password.hasError('required')">Field must not be empty!!!</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" *ngIf="!isLoading"
+            [disabled]="loginForm.invalid">Submit</button>
+    <p id="errMessage">{{ errMessage }}</p>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </form>
+</section>

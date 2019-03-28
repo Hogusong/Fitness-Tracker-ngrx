@@ -16,6 +16,7 @@ import { HeaderComponent } from './menu/header/header.component';
 import { SidebarComponent } from './menu/sidebar/sidebar.component';
 import { WelcomeComponent } from './menu/welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
+import { TrainingComponent } from './training/training.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AppRoutingModule } from './app-routing.module';
     SignupComponent,
     HeaderComponent,
     SidebarComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    TrainingComponent
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@
   <div><a href="">Fitness Tracker</a></div>
   <div fxFlex fxLayoutAlign="flex-end" fxLayoutGap="1rem" fxHide.xs *ngIf="!authStatus">
     <a routerLink="/signup">Signup</a>
-    <a (click)="login()">Login</a>
+    <a routerLink="/login">Login</a>
   </div>
   <div fxFlex fxLayoutAlign="flex-end" fxLayoutGap="1rem" fxHide.xs *ngIf="authStatus">
     <a routerLink="/">Training</a>

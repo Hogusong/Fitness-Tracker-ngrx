@@ -12,6 +12,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 })
 export class AuthService {
 
+  private user: User = null;
   private users: User[] = null;
   private authStatus = new Subject<boolean>();
   private membersCollection: AngularFirestoreCollection<User>;
@@ -51,6 +52,11 @@ export class AuthService {
       .subscribe((users: User[]) => this.users = users);
   }
 
+  getEmail(username) {
+    const user = this.users.find(user => user.username === username);
+    return user ? user.email : null;
+  }
+
   signup(data: any): Promise<any> {
     const newUser: User = { 
       username: data.username.toLowerCase().trim(),
@@ -71,8 +77,19 @@ export class AuthService {
       });
   }
 
-  login() {
-
+  login(email, password): Promise<any> {
+    return new Promise((res, rej) => {
+      this.afAuth.auth.signInWithEmailAndPassword(email, password)
+        .then(result => {
+          this.user = this.users.find(user => user.email = email);
+          this.authStatus.next(true);
+          res('Enjoy your fitness.');
+        })
+        .catch(error => {
+          this.authStatus.next(false);
+          rej(error.message);
+        })
+    })
   }
 
   logout() {
