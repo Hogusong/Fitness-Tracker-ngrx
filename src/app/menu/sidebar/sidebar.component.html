@@ -1,3 +1,22 @@
-<p>
-  sidebar works!
-</p>
+<mat-nav-list *ngIf="!authStatus">
+  <a mat-list-item routerLink="/signup">
+    <mat-icon>person_add</mat-icon>
+    <span>Signup</span>
+  </a>
+  <a mat-list-item (click)="login()">
+    <mat-icon>group_add</mat-icon>
+    <span>Login</span>
+  </a>
+</mat-nav-list>
+
+<mat-nav-list *ngIf="authStatus">
+  <a mat-list-item routerLink="/">
+    <mat-icon>directions_run</mat-icon>
+    <span>Training</span>
+  </a>
+  <a mat-list-item (click)="logout()">
+    <mat-icon>eject</mat-icon>
+    <span>Logout</span>
+  </a>
+</mat-nav-list>
+  
