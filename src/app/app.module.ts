@@ -11,6 +11,7 @@ import { HeaderComponent } from './menu/header/header.component';
 import { SidebarComponent } from './menu/sidebar/sidebar.component';
 import { WelcomeComponent } from './menu/welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
