@@ -40,6 +40,10 @@ export class AuthService {
     })
   }
 
+  getAuthStatus() {
+    return this.authStatus.asObservable();
+  }
+
   getUsers() {
     this.membersCollection.snapshotChanges()
       .pipe(map(response => {
@@ -93,6 +97,7 @@ export class AuthService {
   }
 
   logout() {
-
+    this.authStatus.next(false);
+    this.router.navigate(['/']);
   }
 }

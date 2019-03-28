@@ -1,25 +1,30 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  authStatus = false;
+  authStatus: boolean;
+  subscription: Subscription;
   @Output('onToggle') onToggle = new EventEmitter();
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-  }
-
-  login() {
-    this.authStatus = true;
+    this.subscription = this.authService.getAuthStatus()
+      .subscribe(res => this.authStatus = res)
   }
 
   logout() {
-    this.authStatus = false;
+    this.authService.logout();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

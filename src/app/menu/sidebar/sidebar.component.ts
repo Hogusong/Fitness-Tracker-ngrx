@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
-  authStatus = false;
+  authStatus: boolean;
+  subscription: Subscription;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-  }
-
-  login() {
-    this.authStatus = true;
+    this.subscription = this.authService.getAuthStatus()
+      .subscribe(res => this.authStatus = res)
   }
 
   logout() {
-    this.authStatus = false;
+    this.authService.logout();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
