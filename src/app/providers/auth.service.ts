@@ -89,13 +89,12 @@ export class AuthService {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then(result => {
           this.user = this.users.find(user => user.email = email);
-          // this.authStatus.next(true);
           this.store.dispatch(new authReducer.SetAuthenticated());
           this.store.dispatch(new authReducer.SetUser(this.user));
+          this.users = [];
           res('Enjoy your fitness.');
         })
         .catch(error => {
-          // this.authStatus.next(false);
           this.store.dispatch(new authReducer.SetUnauthenticated());
           rej(error.message);
         })
@@ -103,7 +102,6 @@ export class AuthService {
   }
 
   logout() {
-    // this.authStatus.next(false);
     this.store.dispatch(new authReducer.SetUnauthenticated());
     this.router.navigate(['/']);
   }
