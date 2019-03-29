@@ -19,6 +19,9 @@ import { WelcomeComponent } from './menu/welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TrainingComponent } from './training/training.component';
 import { reducers } from './reducers/root.reducer';
+import { NewTrainingComponent } from './training/new-training/new-training.component';
+import { CurrTrainingComponent } from './training/curr-training/curr-training.component';
+import { PastTrainingComponent } from './training/past-training/past-training.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { reducers } from './reducers/root.reducer';
     HeaderComponent,
     SidebarComponent,
     WelcomeComponent,
-    TrainingComponent
+    TrainingComponent,
+    NewTrainingComponent,
+    CurrTrainingComponent,
+    PastTrainingComponent
   ],
   imports: [
     BrowserModule,

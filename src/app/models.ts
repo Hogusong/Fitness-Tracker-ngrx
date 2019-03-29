@@ -4,7 +4,11 @@ export interface User {
   email: string,
 }
 
-export interface AuthData {
-  email: string,
-  password: string
-} 
+export interface Exercise {
+  id?: string,
+  name: string,
+  duration: number,
+  calories: number,
+  date?: string,
+  state?: 'completed' | 'cancelled' | null
+}
