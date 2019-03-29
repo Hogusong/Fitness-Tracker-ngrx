@@ -4,8 +4,11 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { User } from '../models';
+import * as rootReducer from '../reducers/root.reducer';
+import * as authReducer from '../reducers/auth.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +22,7 @@ export class AuthService {
 
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFirestore,
+              private store: Store<rootReducer.State>,
               private router: Router) {
     this.membersCollection = this.db.collection(
       'members', ref => ref.orderBy('username', 'asc')
@@ -29,10 +33,12 @@ export class AuthService {
     this.getUsers();
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.authStatus.next(true);
+        // this.authStatus.next(true);
+        this.store.dispatch(new authReducer.SetAuthenticated());
         this.router.navigate(['/']);
       } else {
-        this.authStatus.next(false);
+        // this.authStatus.next(false);
+        this.store.dispatch(new authReducer.SetUnauthenticated());
         this.router.navigate(['/signup']);
       }
     })
@@ -83,18 +89,22 @@ export class AuthService {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then(result => {
           this.user = this.users.find(user => user.email = email);
-          this.authStatus.next(true);
+          // this.authStatus.next(true);
+          this.store.dispatch(new authReducer.SetAuthenticated());
+          this.store.dispatch(new authReducer.SetUser(this.user));
           res('Enjoy your fitness.');
         })
         .catch(error => {
-          this.authStatus.next(false);
+          // this.authStatus.next(false);
+          this.store.dispatch(new authReducer.SetUnauthenticated());
           rej(error.message);
         })
     })
   }
 
   logout() {
-    this.authStatus.next(false);
+    // this.authStatus.next(false);
+    this.store.dispatch(new authReducer.SetUnauthenticated());
     this.router.navigate(['/']);
   }
 }

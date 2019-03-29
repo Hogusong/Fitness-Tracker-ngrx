@@ -1,4 +1,4 @@
-<mat-nav-list *ngIf="!authStatus">
+<mat-nav-list *ngIf="!(authStatus$ | async)">
   <a mat-list-item routerLink="/signup">
     <mat-icon>person_add</mat-icon>
     <span>Signup</span>
@@ -9,7 +9,7 @@
   </a>
 </mat-nav-list>
 
-<mat-nav-list *ngIf="authStatus">
+<mat-nav-list *ngIf="authStatus$ | async">
   <a mat-list-item routerLink="/">
     <mat-icon>directions_run</mat-icon>
     <span>Training</span>

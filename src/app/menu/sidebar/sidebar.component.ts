@@ -1,29 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { AuthService } from 'src/app/providers/auth.service';
+import * as rootReducer from '../../reducers/root.reducer';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit {
 
-  authStatus: boolean;
-  subscription: Subscription;
+  authStatus$: Observable<boolean>;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private store: Store<rootReducer.State>) { }
 
   ngOnInit() {
-    this.subscription = this.authService.getAuthStatus()
-      .subscribe(res => this.authStatus = res)
+    this.authStatus$ = this.store.select(rootReducer.getAuthStatus);
   }
 
   logout() {
     this.authService.logout();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

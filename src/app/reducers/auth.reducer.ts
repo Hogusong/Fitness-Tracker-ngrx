@@ -30,7 +30,7 @@ export function reducer(state=initialState, action: authAction) {
     case REMOVE_USER :
       state.user = null;
   }
-  return state;
+  return { ...state }
 }
 
 export const getAuthStatus = (state: State) => state.authStatus;
