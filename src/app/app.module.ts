@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { StoreModule } from '@ngrx/store';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { SidebarComponent } from './menu/sidebar/sidebar.component';
 import { WelcomeComponent } from './menu/welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TrainingComponent } from './training/training.component';
+import { reducers } from './reducers/root.reducer';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { TrainingComponent } from './training/training.component';
     FlexLayoutModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot(reducers)
   ],
   providers: [],
   bootstrap: [AppComponent]

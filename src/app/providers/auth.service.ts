@@ -1,3 +1,4 @@
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
@@ -5,7 +6,6 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../models';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +30,10 @@ export class AuthService {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.authStatus.next(true);
-        console.log('Logged in successfully!!!')
         this.router.navigate(['/']);
       } else {
         this.authStatus.next(false);
         this.router.navigate(['/signup']);
-        console.log('Please Log in to use this app!!!')
       }
     })
   }
@@ -72,7 +70,6 @@ export class AuthService {
       this.afAuth.auth.createUserWithEmailAndPassword(newUser.email, data.password)
         .then(result => {
           this.membersCollection.add(newUser).then(docRef => newUser.id = docRef.id);
-          console.log(newUser);
           res('Succeed');
         })
         .catch(error => {
