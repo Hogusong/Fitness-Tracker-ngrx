@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { Exercise } from 'src/app/models';
+import * as rootReducer from '../../reducers/root.reducer';
+import { TrainingService } from 'src/app/providers/training.service';
 
 @Component({
   selector: 'app-new-training',
@@ -7,9 +13,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewTrainingComponent implements OnInit {
 
-  constructor() { }
+  exercises$: Observable<Exercise[]>
+
+  constructor(private trainingService: TrainingService,
+              private store: Store<rootReducer.State>) { }
 
   ngOnInit() {
+    this.exercises$ = this.store.select(rootReducer.getAvailableTrainings);
+    this.trainingService.fetchAvailableExercises();
   }
 
+  start(exercise: Exercise) {
+    console.log(exercise);
+  }
 }
