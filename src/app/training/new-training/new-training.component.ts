@@ -24,6 +24,6 @@ export class NewTrainingComponent implements OnInit {
   }
 
   start(exercise: Exercise) {
-    console.log(exercise);
+    this.trainingService.startTraining(exercise);
   }
 }
