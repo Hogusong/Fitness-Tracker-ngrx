@@ -22,6 +22,7 @@ import { reducers } from './reducers/root.reducer';
 import { NewTrainingComponent } from './training/new-training/new-training.component';
 import { CurrTrainingComponent } from './training/curr-training/curr-training.component';
 import { PastTrainingComponent } from './training/past-training/past-training.component';
+import { ChoiceDialogComponent } from './share/choice-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PastTrainingComponent } from './training/past-training/past-training.co
     TrainingComponent,
     NewTrainingComponent,
     CurrTrainingComponent,
-    PastTrainingComponent
+    PastTrainingComponent,
+    ChoiceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import { PastTrainingComponent } from './training/past-training/past-training.co
     StoreModule.forRoot(reducers)
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ChoiceDialogComponent]
 })
 export class AppModule { }
