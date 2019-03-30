@@ -35,6 +35,23 @@ export class TrainingService {
     }, error => console.log('Firebase is disconnected now!'))
   }
 
+  fetchPastExercises() {
+    this.store.select(rootReducer.getUser).subscribe(user => {
+      this.historyCollection = this.db.collection(
+        'pastExercises', ref => ref.where('userID', '==', user.id));
+      this.historyCollection.snapshotChanges().pipe(map(res => {
+        return res.map(action => {
+          const data = action.payload.doc.data() as Exercise;
+          return data;
+        })
+      }))
+      .subscribe(exercises => {
+        console.log(exercises);
+        this.store.dispatch(new trainingReducer.SetFinishedTrainings(exercises))
+      }, error => console.log('Failure fetching for Past Exercises.'))
+    })
+  }
+
   startTraining(exercise: Exercise) {
     this.store.dispatch(new trainingReducer.StartTraining(exercise));
   }
