@@ -9,5 +9,7 @@ mat-form-field {
 
 #errMessage {
   font-size: 12px;
+  width: 90%;
+  text-align: center;
   color: red;
 }

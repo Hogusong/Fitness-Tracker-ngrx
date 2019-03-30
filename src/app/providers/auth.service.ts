@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { User } from '../models';
 import * as rootReducer from '../reducers/root.reducer';
 import * as authReducer from '../reducers/auth.reducer';
+import * as traingingReducer from '../reducers/training.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -88,10 +89,9 @@ export class AuthService {
     return new Promise((res, rej) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then(result => {
-          this.user = this.users.find(user => user.email = email);
+          this.user = this.users.find(user => user.email === email);
           this.store.dispatch(new authReducer.SetAuthenticated());
           this.store.dispatch(new authReducer.SetUser(this.user));
-          this.users = [];
           res('Enjoy your fitness.');
         })
         .catch(error => {
@@ -103,6 +103,7 @@ export class AuthService {
 
   logout() {
     this.store.dispatch(new authReducer.SetUnauthenticated());
+    this.store.dispatch(new traingingReducer.SetFinishedTrainings([]));
     this.router.navigate(['/']);
   }
 }

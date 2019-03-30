@@ -52,7 +52,7 @@ export class TrainingService {
   }
 
   saveExerciseInHistory(exercise: Exercise) {
-    this.store.select(rootReducer.getUser)
+    this.store.select(rootReducer.getUser).pipe(take(1))
       .subscribe(user => {
         exercise.userID = user ? user.id : '';
         console.log(user)
