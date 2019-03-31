@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/app/providers/auth.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { AuthService } from 'src/app/providers/auth.service';
+import * as rootReducer from '../../reducers/root.reducer';
 
 @Component({
   selector: 'app-signup',
@@ -12,12 +16,14 @@ export class SignupComponent implements OnInit {
 
   notMatched = false;
   errMessage = '';
-  isLoading = false;
+  isLoading$: Observable<boolean>;
 
   constructor(private authService: AuthService,
+              private store: Store<rootReducer.State>,
               private router: Router) { }
 
   ngOnInit() {
+    this.isLoading$ = this.store.select(rootReducer.getIsLoading);
   }
 
   onSubmit(form: NgForm) {
@@ -27,14 +33,11 @@ export class SignupComponent implements OnInit {
         this.notMatched = true;
         setTimeout(() => this.notMatched = false, 3000)
       } else {
-        this.isLoading = true;
         this.authService.signup(form.value)
           .then(res => {
-            this.isLoading = false;
             this.router.navigate(['/login']);
           })
           .catch(message => {
-            this.isLoading = false;
             this.errMessage = message;
           });
       }

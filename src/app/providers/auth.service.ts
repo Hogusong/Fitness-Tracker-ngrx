@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 
 import { User } from '../models';
 import * as rootReducer from '../reducers/root.reducer';
+import * as uiReducer from '../reducers/ui.reducer';
 import * as authReducer from '../reducers/auth.reducer';
 import * as traingingReducer from '../reducers/training.reducer';
 
@@ -74,28 +75,34 @@ export class AuthService {
       return new Promise((res, rej) => rej('The username is already in use by another account.'));
     }
     return new Promise((res, rej) => {
+      this.store.dispatch(new uiReducer.StartLoading());
       this.afAuth.auth.createUserWithEmailAndPassword(newUser.email, data.password)
         .then(result => {
           this.membersCollection.add(newUser).then(docRef => newUser.id = docRef.id);
+          this.store.dispatch(new uiReducer.StopLoading());
           res('Succeed');
         })
         .catch(error => {
+          this.store.dispatch(new uiReducer.StopLoading());
           rej(error.message);
         })
       });
   }
 
   login(email, password): Promise<any> {
+    this.store.dispatch(new uiReducer.StartLoading());
     return new Promise((res, rej) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then(result => {
           this.user = this.users.find(user => user.email === email);
           this.store.dispatch(new authReducer.SetAuthenticated());
           this.store.dispatch(new authReducer.SetUser(this.user));
+          this.store.dispatch(new uiReducer.StopLoading());
           res('Enjoy your fitness.');
         })
         .catch(error => {
           this.store.dispatch(new authReducer.SetUnauthenticated());
+          this.store.dispatch(new uiReducer.StopLoading());
           rej(error.message);
         })
     })

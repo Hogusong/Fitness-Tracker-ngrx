@@ -13,6 +13,9 @@
     <button type="submit" mat-raised-button
             [disabled]="exercise.invalid"
             (click)="start(exercise?.value)"
+            *ngIf="!(isLoading$ | async)"
             color="primary">Start</button>
   </mat-card-actions>
+
+  <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
 </mat-card>

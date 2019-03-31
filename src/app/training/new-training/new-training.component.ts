@@ -14,11 +14,13 @@ import { TrainingService } from 'src/app/providers/training.service';
 export class NewTrainingComponent implements OnInit {
 
   exercises$: Observable<Exercise[]>
+  isLoading$: Observable<boolean>;
 
   constructor(private trainingService: TrainingService,
               private store: Store<rootReducer.State>) { }
 
   ngOnInit() {
+    this.isLoading$ = this.store.select(rootReducer.getIsLoading);
     this.exercises$ = this.store.select(rootReducer.getAvailableTrainings);
     this.trainingService.fetchAvailableExercises();
   }

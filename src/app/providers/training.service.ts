@@ -6,6 +6,7 @@ import { map, take } from 'rxjs/operators';
 import { Exercise } from '../models';
 import * as rootReducer from '../reducers/root.reducer';
 import * as trainingReducer from '../reducers/training.reducer';
+import * as uiReducer from '../reducers/ui.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class TrainingService {
   }
 
   fetchAvailableExercises() {
+    this.store.dispatch(new uiReducer.StartLoading());
     this.availableCollection.snapshotChanges().pipe(map(res => {
       return res.map(action => {
         const data = action.payload.doc.data() as Exercise;
@@ -32,7 +34,11 @@ export class TrainingService {
     }))
     .subscribe(exercises => {
       this.store.dispatch(new trainingReducer.SetAvailableTrainings(exercises));
-    }, error => console.log('Firebase is disconnected now!'))
+      this.store.dispatch(new uiReducer.StopLoading());
+    }, error => {
+      console.log('Firebase is disconnected now!');
+      this.store.dispatch(new uiReducer.StopLoading());
+    })
   }
 
   fetchPastExercises() {
@@ -46,7 +52,6 @@ export class TrainingService {
         })
       }))
       .subscribe(exercises => {
-        console.log(exercises);
         this.store.dispatch(new trainingReducer.SetFinishedTrainings(exercises))
       }, error => console.log('Failure fetching for Past Exercises.'))
     })

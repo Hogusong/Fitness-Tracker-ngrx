@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/providers/auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { AuthService } from 'src/app/providers/auth.service';
+import * as rootReducer from '../../reducers/root.reducer';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +14,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  isLoading = false;
+  isLoading$: Observable<boolean>;
   errMessage = '';
   constructor(private authService: AuthService,
+              private store: Store<rootReducer.State>,
               private router: Router) { }
 
   ngOnInit() {
+    this.isLoading$ = this.store.select(rootReducer.getIsLoading);
   }
 
   onSubmit(form: NgForm) {
@@ -26,14 +32,11 @@ export class LoginComponent implements OnInit {
         email = this.authService.getEmail(email);
       }
       if (email) {
-        this.isLoading = true;
         this.authService.login(email, password)
           .then(() => {
-            this.isLoading = false;
             this.router.navigate(['/training'])
           })
           .catch(message => {
-            this.isLoading = false;
             this.errMessage = message
           });
       } else {
