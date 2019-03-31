@@ -5,6 +5,7 @@ import { CurrTrainingComponent } from "./curr-training/curr-training.component";
 import { PastTrainingComponent } from "./past-training/past-training.component";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../share/shared.module";
+import { TrainingRoutingModule } from "./training-routing.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SharedModule } from "../share/shared.module";
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    TrainingRoutingModule
   ]
 })
 export class TrainingModule {}

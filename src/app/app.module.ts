@@ -35,7 +35,6 @@ import { SharedModule } from './share/shared.module';
     AppRoutingModule,
     StoreModule.forRoot(reducers),
     AuthModule,
-    TrainingModule,
     SharedModule
   ],
   providers: [],
