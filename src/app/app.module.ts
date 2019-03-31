@@ -16,7 +16,7 @@ import { reducers } from './reducers/root.reducer';
 import { ChoiceDialogComponent } from './share/choice-dialog.component';
 import { AuthModule } from './auth/auth.module';
 import { TrainingModule } from './training/training.module';
-import { ShareModule } from './share/share.module';
+import { SharedModule } from './share/shared.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { ShareModule } from './share/share.module';
     StoreModule.forRoot(reducers),
     AuthModule,
     TrainingModule,
-    ShareModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],
