@@ -42,6 +42,6 @@
     <button mat-raised-button color="primary" *ngIf="!(isLoading$ | async)"
             [disabled]="signupForm.invalid">Submit</button>
     <p id="errMessage">{{ errMessage }}</p>
-    <mat-spinner *ngIf="isLoading | async"></mat-spinner>
+    <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
   </form>
 </section>
