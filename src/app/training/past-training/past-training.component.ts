@@ -24,7 +24,7 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.store.select(rootReducer.getPastTrainings)
       .subscribe(res => this.dataSource.data = res);
-    this.trainingService.fetchPastExercises();
+    setTimeout(() => this.trainingService.fetchPastExercises(), 500);
   }
 
   ngAfterViewInit() {

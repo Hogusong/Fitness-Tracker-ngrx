@@ -9,7 +9,8 @@ const appRoutes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'training', loadChildren: './training/training.module#TrainingModule' }
+  { path: 'training', loadChildren: './training/training.module#TrainingModule', canLoad: [AuthGuard] },
+  { path: '**', redirectTo: '/' }
 ]
 @NgModule({
   imports: [ RouterModule.forRoot(appRoutes) ],

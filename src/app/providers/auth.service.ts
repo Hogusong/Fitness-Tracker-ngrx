@@ -18,7 +18,6 @@ import * as traingingReducer from '../reducers/training.reducer';
 export class AuthService {
 
   private user: User = null;
-  private users: User[] = null;
   private authStatus = new Subject<boolean>();
   private membersCollection: AngularFirestoreCollection<User>;
 
@@ -32,16 +31,15 @@ export class AuthService {
   }
 
   initAuthListener() {
-    this.getUsers();
     this.afAuth.authState.subscribe(user => {
       if (user) {
         // this.authStatus.next(true);
         this.store.dispatch(new authReducer.SetAuthenticated());
-        this.router.navigate(['/']);
+        this.router.navigate(['/training']);
       } else {
         // this.authStatus.next(false);
         this.store.dispatch(new authReducer.SetUnauthenticated());
-        this.router.navigate(['/signup']);
+        this.router.navigate(['/']);
       }
     })
   }
@@ -51,7 +49,7 @@ export class AuthService {
   }
 
   getUsers() {
-    this.membersCollection.snapshotChanges()
+    return this.membersCollection.snapshotChanges()
       .pipe(map(response => {
         return response.map(action => {
           const user = action.payload.doc.data() as User;
@@ -59,20 +57,12 @@ export class AuthService {
           return user;
         });
       }))
-      .subscribe((users: User[]) => this.users = users);
-  }
-
-  getEmail(username) {
-    const user = this.users.find(user => user.username === username);
-    return user ? user.email : null;
   }
 
   signup(data: any): Promise<any> {
     const newUser: User = { 
       username: data.username.toLowerCase().trim(),
-      email: data.email.toLowerCase().trim() }
-    if (this.users.find(user => user.username === newUser.username)) {
-      return new Promise((res, rej) => rej('The username is already in use by another account.'));
+      email: data.email.toLowerCase().trim()
     }
     return new Promise((res, rej) => {
       this.store.dispatch(new uiReducer.StartLoading());
@@ -94,14 +84,18 @@ export class AuthService {
     return new Promise((res, rej) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, password)
         .then(result => {
-          this.user = this.users.find(user => user.email === email);
-          this.store.dispatch(new authReducer.SetAuthenticated());
-          this.store.dispatch(new authReducer.SetUser(this.user));
-          this.store.dispatch(new uiReducer.StopLoading());
-          res('Enjoy your fitness.');
+          this.getUsers().subscribe((users: User[]) => {
+            this.user = users.find(user => user.email === email);
+            this.store.dispatch(new authReducer.SetAuthenticated());
+            this.store.dispatch(new authReducer.SetUser(this.user));
+            this.store.dispatch(new uiReducer.StopLoading());
+            res('Enjoy your fitness.');
+          }, error => {
+            this.store.dispatch(new uiReducer.StopLoading());
+            rej('No users exist.')
+          });
         })
         .catch(error => {
-          this.store.dispatch(new authReducer.SetUnauthenticated());
           this.store.dispatch(new uiReducer.StopLoading());
           rej(error.message);
         })
@@ -111,6 +105,7 @@ export class AuthService {
   logout() {
     this.store.dispatch(new authReducer.SetUnauthenticated());
     this.store.dispatch(new traingingReducer.SetFinishedTrainings([]));
+    this.afAuth.auth.signOut();
     this.router.navigate(['/']);
   }
 }

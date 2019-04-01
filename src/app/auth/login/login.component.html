@@ -1,12 +1,12 @@
 <section>
   <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px"
         #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-    <mat-form-field hintLabel="You can login with username or email">
-      <input type="text" matInput placeholder="Username or Email"
-            ngModel name="keyword" required 
-            #keyword="ngModel">
-      <mat-hint align="end">{{ keyword.value?.length }}</mat-hint>
-      <mat-error *ngIf="keyword.hasError('required')">Field must not be empty!!!</mat-error>
+    <mat-form-field>
+      <input type="email" matInput placeholder="Your email here"
+            ngModel name="email" required 
+            #email="ngModel">
+      <mat-error *ngIf="!email.hasError('required')">Email is not valid!!!</mat-error>
+      <mat-error *ngIf="email.hasError('required')">Field must not be empty!!!</mat-error>
     </mat-form-field>
 
     <mat-form-field hintLabel="Should be at least 6 characters long.">

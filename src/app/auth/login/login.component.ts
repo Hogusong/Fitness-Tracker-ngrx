@@ -25,23 +25,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let email = form.value.keyword.toLowerCase().trim();
+    let email = form.value.email.toLowerCase().trim();
     const password = form.value.password;
     if (form.valid) {
-      if (!email.includes('@')) {
-        email = this.authService.getEmail(email);
-      }
-      if (email) {
-        this.authService.login(email, password)
-          .then(() => {
-            this.router.navigate(['/training'])
-          })
-          .catch(message => {
-            this.errMessage = message
-          });
-      } else {
-        this.errMessage = 'Not found username. Try another.'
-      }
+      this.authService.login(email, password)
+        .then(() => {
+          this.router.navigate(['/training'])
+        })
+        .catch(message => {
+          this.errMessage = message
+        });
     }
   }
 }
