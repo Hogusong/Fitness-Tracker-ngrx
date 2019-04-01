@@ -77,7 +77,6 @@ export class TrainingService {
     this.store.select(rootReducer.getUser).pipe(take(1))
       .subscribe(user => {
         exercise.userID = user ? user.id : '';
-        console.log(user)
         this.db.collection('pastExercises').add(exercise)
           .catch(error => {
           });

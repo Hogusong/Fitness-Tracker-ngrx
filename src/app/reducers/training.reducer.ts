@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { Exercise } from '../models';
-import { state } from '@angular/animations';
 
 const SET_AVAILABLE_TRAININGS = '[Training] Set Available Trainings';
 const SET_HISTORY_TRAININGS = '[Training] Set Finished Trainings';
@@ -67,4 +66,3 @@ export const getRunningTraining = (state: State) => {
   return { ...state.runningExercise }
 };
 export const getOnTraining = (state: State) => state.runningExercise != null;
-

@@ -15,7 +15,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { reducers } from './reducers/root.reducer';
 import { ChoiceDialogComponent } from './share/choice-dialog.component';
 import { AuthModule } from './auth/auth.module';
-import { TrainingModule } from './training/training.module';
 import { SharedModule } from './share/shared.module';
 
 @NgModule({

@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 
 import * as rootReducer from '../reducers/root.reducer';
 
-
 @Component({
   selector: 'app-training',
   templateUrl: './training.component.html',
